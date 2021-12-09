@@ -129,3 +129,7 @@ USE_TZ = True
 LOGIN_URL = "/"
 
 STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "settings", "static"),
+    os.path.join(BASE_DIR, "products", "static"),
+]
