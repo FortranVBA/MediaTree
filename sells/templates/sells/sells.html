@@ -2,6 +2,72 @@
 
 {% block content %}
 
-You are logged
+<div class=container_button_add_sell>
+    <form id="add_sell_form" onsubmit="submit_add_sell(event);">{% csrf_token %}
+        <label for="product_name_add_sell"> Product sold :</label>
+        <select name="product_name_add_sell" id="product_name_add_sell">
+            {% for product in products %}
+            <option value="{{product.pk}}">{{product.name}}</option>
+            {% endfor %}
+        </select>
+        <label>Quantity: <input type="number" id="sell_quantity_field"></label><br>
+        <input type="submit" value="Add Sell">
+    </form>
+</div>
+
+<br>
+
+<div class=container_button_update_sell>
+    <form id="update_sell_form" onsubmit="submit_update_sell(event);">{% csrf_token %}
+        <label for="sell_name_selector_update">Sell to update :</label>
+        <select name="sell_name_selector_update" id="sell_name_selector_update">
+            {% for sell in sells %}
+            <option value="{{sell.pk}}">{{sell.name}}</option>
+            {% endfor %}
+        </select>
+
+        <label for="product_name_update_sell"> New product sold :</label>
+        <select name="product_name_update_sell" id="product_name_update_sell">
+            {% for product in products %}
+            <option value="{{product.pk}}">{{product.name}}</option>
+            {% endfor %}
+        </select>
+        <label>New Quantity: <input type="number" id="sell_quantity_update_field"></label><br>
+
+        <input type="submit" value="Update Sell">
+    </form>
+</div>
+
+<br>
+
+<div class=container_button_delete_sell>
+    <form id="delete_sell_form" onsubmit="submit_delete_sell(event);">{% csrf_token %}
+        <label for="sell_name_selector_delete">Sell to delete :</label>
+        <select name="sell_name_selector_delete" id="sell_name_selector_delete">
+            {% for sell in sells %}
+            <option value="{{sell.pk}}">{{sell.name}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Delete Sell">
+    </form>
+
+</div>
+
+<br>
+
+<div class=container_button_list_sell>
+    <button type="button" id="button_list_sell" onClick="window.location.reload();">Update Sells List</button>
+</div>
+
+<br>
+
+<div class=container_button_sell_table>
+    <table id="table_sell">
+    </table>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{% load static %}
+<script src="{% static '/js/sells.js' %}" type="text/javascript"></script>
 
 {% endblock %}
