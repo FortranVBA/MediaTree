@@ -1,0 +1,28 @@
+
+.container_button_add_product, .container_button_update_product, .container_button_delete_product, .container_button_list_product, .container_button_product_table{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+#add_product_form, #update_product_form, #delete_product_form{
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;    
+    border-style: outset;
+}
+
+#table_product, th, td{
+    font-size: 2rem;
+    border: 1px solid black;
+}
+
+.container_title{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 3rem;
+    color: rgb(7, 10, 145);
+    font-weight: bold;
+}

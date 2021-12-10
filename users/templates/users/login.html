@@ -13,12 +13,12 @@
 <div class="container_login">
     <div class="block_login">
         <div class="block_title">
-            Login
+            Enter your logins
         </div>
         <div class="block_content">
             <form method="post">{% csrf_token %}
                 {{ form.as_p }}
-                <div class="button_right">
+                <div class="button_login_container">
                     <input type="submit" value="Login">
                 </div>
             </form>

@@ -37,7 +37,7 @@ def get_login_view(request):
                 messages.add_message(
                     request,
                     messages.INFO,
-                    "Name / password not matching",
+                    "Error : Name / password not matching",
                 )
 
     context = {"form": form_login}

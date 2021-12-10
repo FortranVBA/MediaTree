@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from .models import Product
 import json
 
+
 # Create your views here.
 @login_required
 def get_products_view(request):
@@ -71,7 +72,7 @@ def API_products_update_delete_view(request, product):
 
             if body["name"]:
                 product_content.name = body["name"]
-            product_content.description = body["name"]
+            product_content.description = body["description"]
             product_content.author_user = request.user
 
             product_content.save()

@@ -60,13 +60,17 @@ function submit_add_product(event) {
     productName = document.getElementById('product_name_field').value;
     productDescription = document.getElementById('product_description_field').value;
 
-    body = {
-        name: productName,
-        description: productDescription,
-    };
-    apiCall = [api, body];
+    if (productName != "") {
+        body = {
+            name: productName,
+            description: productDescription,
+        };
+        apiCall = [api, body];
 
-    postUrl(apiCall, productCreationSuccess);
+        postUrl(apiCall, productCreationSuccess);
+    } else {
+        alert("Error : Product name cannot be blank.");
+    }
 }
 
 function submit_update_product(event) {

@@ -1,0 +1,35 @@
+
+.container_button_add_sell, .container_button_update_sell, .container_button_delete_sell, .container_button_list_sell, .container_button_sell_table{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.container_total_sells{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    flex-direction: column;    
+}
+
+#add_sell_form, #update_sell_form, #delete_sell_form{
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;    
+    border-style: outset;
+}
+
+#table_sell, th, td{
+    font-size: 2rem;
+    border: 1px solid black;
+}
+
+.container_sell_title{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 3rem;
+    color: rgb(7, 10, 145);
+    font-weight: bold;
+}

@@ -9,7 +9,7 @@ from django.conf import settings
 class Product(models.Model):
     """Product model."""
 
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=False)
     description = models.TextField(max_length=8192, blank=True)
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE

@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class=container_button_add_sell>
+    <div class=container_sell_title> Create New Sell Record : </div>
     <form id="add_sell_form" onsubmit="submit_add_sell(event);">{% csrf_token %}
         <label for="product_name_add_sell"> Product sold :</label>
         <select name="product_name_add_sell" id="product_name_add_sell">
@@ -10,7 +11,7 @@
             <option value="{{product.pk}}">{{product.name}}</option>
             {% endfor %}
         </select>
-        <label>Quantity: <input type="number" id="sell_quantity_field"></label><br>
+        <label>Quantity: <input type="number" id="sell_quantity_field" min="0"></label><br>
         <input type="submit" value="Add Sell">
     </form>
 </div>
@@ -18,8 +19,9 @@
 <br>
 
 <div class=container_button_update_sell>
+    <div class=container_sell_title> Update Sell Record : </div>
     <form id="update_sell_form" onsubmit="submit_update_sell(event);">{% csrf_token %}
-        <label for="sell_name_selector_update">Sell to update :</label>
+        <label for="sell_name_selector_update">Sell ID to update :</label>
         <select name="sell_name_selector_update" id="sell_name_selector_update">
             {% for sell in sells %}
             <option value="{{sell.pk}}">{{sell.pk}}</option>
@@ -32,7 +34,7 @@
             <option value="{{product.pk}}">{{product.name}}</option>
             {% endfor %}
         </select>
-        <label>New Quantity: <input type="number" id="sell_quantity_update_field"></label><br>
+        <label>New Quantity: <input type="number" id="sell_quantity_update_field" min="0"></label><br>
 
         <input type="submit" value="Update Sell">
     </form>
@@ -41,6 +43,7 @@
 <br>
 
 <div class=container_button_delete_sell>
+    <div class=container_sell_title> Delete Sell Record : </div>
     <form id="delete_sell_form" onsubmit="submit_delete_sell(event);">{% csrf_token %}
         <label for="sell_name_selector_delete">Sell to delete :</label>
         <select name="sell_name_selector_delete" id="sell_name_selector_delete">
@@ -55,8 +58,9 @@
 
 <br>
 
-<div class=container_total_sells>
 
+<div class=container_total_sells>
+    <div class=container_sell_title> Total sell quantities by product : </div>
     <table>
         <tr>
             <th>Product Id</th>
@@ -77,6 +81,7 @@
 <br>
 
 <div class=container_button_list_sell>
+    <div class=container_sell_title> List Sell Records : </div>
     <button type="button" id="button_list_sell" onClick="window.location.reload();">Update Sells List</button>
 </div>
 

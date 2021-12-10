@@ -3,10 +3,10 @@
 {% block content %}
 
 <div class=container_button_add_product>
+    <div class=container_title> Create New Product : </div>
     <form id="add_product_form" onsubmit="submit_add_product(event);">{% csrf_token %}
-        <label>Name: <input type="text" id="product_name_field"></label><br>
+        <label>Name: <input type="text" id="product_name_field"></label>
         <label for="product_description_field">Description: </label>
-        <br>
         <textarea id="product_description_field" name="product_description_field" rows="12" cols="50"></textarea>
         <input type="submit" value="Add Products">
     </form>
@@ -15,6 +15,7 @@
 <br>
 
 <div class=container_button_update_product>
+    <div class=container_title> Update Product : </div>
     <form id="update_product_form" onsubmit="submit_update_product(event);">{% csrf_token %}
         <label for="product_name_selector_update">Product to update :</label>
         <select name="product_name_selector_update" id="product_name_selector_update">
@@ -23,9 +24,8 @@
             {% endfor %}
         </select>
 
-        <label>New name: <input type="text" id="product_update_name_field"></label><br>
+        <label>New name: <input type="text" id="product_update_name_field"></label>
         <label for="product_update_description_field">New description: </label>
-        <br>
         <textarea id="product_update_description_field" name="product_update_description_field" rows="12"
             cols="50"></textarea>
         <input type="submit" value="Update Products">
@@ -35,6 +35,7 @@
 <br>
 
 <div class=container_button_delete_product>
+    <div class=container_title> Delete Product : </div>
     <form id="delete_product_form" onsubmit="submit_delete_product(event);">{% csrf_token %}
         <label for="product_name_selector_delete">Product to delete :</label>
         <select name="product_name_selector_delete" id="product_name_selector_delete">
@@ -50,6 +51,7 @@
 <br>
 
 <div class=container_button_list_product>
+    <div class=container_title> List all Products : </div>
     <button type="button" id="button_list_product" onClick="window.location.reload();">Update Product List</button>
 </div>
 
