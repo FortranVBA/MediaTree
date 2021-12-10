@@ -16,13 +16,50 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function generateTableHead(table, firstObject) {
+    let thead = table.createTHead();
+    let row = thead.insertRow();
+
+    // Table Id column title
+    let th = document.createElement("th");
+    let text = document.createTextNode("Id");
+    th.appendChild(text);
+    row.appendChild(th);
+
+    // Table fields column titles
+    for (let key of firstObject) {
+        let th = document.createElement("th");
+        let text = document.createTextNode(key);
+        th.appendChild(text);
+        row.appendChild(th);
+    }
+}
+
+function generateTable(table, data) {
+    for (let element of data) {
+        let row = table.insertRow();
+
+        // Fill table Id column
+        let cell = row.insertCell();
+        let text = document.createTextNode(element['pk']);
+        cell.appendChild(text);
+
+        // Fill table fields column
+        for (let key in element['fields']) {
+            let cell = row.insertCell();
+            let text = document.createTextNode(element['fields'][key]);
+            cell.appendChild(text);
+        }
+    }
+}
+
 // URL getter function
 function getUrl(url, function_onload) {
 
-    axios.get(url[0]).then(function (response) {
+    axios.get(url).then(function (response) {
         function_onload(response);
-    }, function () {
-        alert("Request failed");
+    }, function (response) {
+        alert(`Error on API Call: ${response}`);
     });
 
 }
@@ -31,25 +68,27 @@ function getUrl(url, function_onload) {
 function postUrl(url, function_onload) {
 
     const csrftoken = getCookie('csrftoken');
-    alert(csrftoken);
 
     axios.post(url[0], url[1], { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
         function_onload(response);
-    }, function () {
-        alert("Request failed");
+    }, function (response) {
+        alert(`Error on API Call: ${response}`);
     });
 }
 
 function createProductAPICall(response) {
-    alert(response.status);
-}
 
+    if (response.status == 201) {
+        alert("The product has been added to the database.");
+    } else {
+        alert(`Error ${response.status} ${response.statusText} on API Call`);
+    }
+}
 
 function submit_add_product(event) {
 
     event.preventDefault();
 
-    const api = '/products/';
     let body;
     let apiCall;
     let productName;
@@ -64,20 +103,30 @@ function submit_add_product(event) {
     };
     apiCall = [api, body];
 
-    postUrl(apiCall, postUrl);
+    postUrl(apiCall, createProductAPICall);
 }
 
+function listProductsAPICall(response) {
 
-button_list_product.onclick = function () {
-    const api = '/products/';
+    if (response.status == 200) {
+        let all_products;
 
-    let body;
-    let apiCall;
+        all_products = JSON.parse(response.request.response);
 
-    body = {
-    };
-    apiCall = [api, body];
+        let table = document.getElementById('table_product');
+        let firstProduct = Object.keys(all_products[0].fields);
+        generateTableHead(table, firstProduct);
+        generateTable(table, all_products);
 
-    getUrl(apiCall, createProductAPICall);
+    } else {
+        alert(`Error ${response.status} ${response.statusText} on API Call`);
+    }
+}
 
-};
+function list_products() {
+    getUrl(api, listProductsAPICall);
+}
+
+const api = '/products/';
+
+list_products()

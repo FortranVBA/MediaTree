@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from .models import Product
+import json
 
 # Create your views here.
 @login_required
@@ -19,27 +20,55 @@ def get_products_view(request):
                     logout(request)
                     return redirect(reverse_lazy("login"))
 
-    context = {}
+    products = Product.objects.all()
+    context = {"products": products}
     return render(request, "products/products.html", context)
 
 
 @login_required
 def API_products_create_list_view(request):
-    """List all products."""
-
+    """Get API entry point for all products listing and product create."""
     if request.method == "GET":
         products = Product.objects.all()
         data = serialize(
-            "json", products, fields=("name", "description", "user", "time_created")
+            "json",
+            products,
+            fields=("name", "description", "author_user", "time_created"),
         )
-        return HttpResponse(data, content_type="application/json")
+        return HttpResponse(data, content_type="application/json", status=200)
+
     elif request.method == "POST":
-        breakpoint()
+        body = json.loads(request.body)
+
         new_product = Product(
-            name=request.body["name"],
-            description=request.body["description"],
+            name=body["name"],
+            description=body["description"],
             user=request.user,
         )
         new_product.save()
+
+        data = serialize(
+            "json",
+            [new_product],
+            fields=("pk", "name", "description", "user", "time_created"),
+        )
+        return HttpResponse(data, content_type="application/json", status=201)
+
     else:
-        return HttpResponse("Error 405 : This method is not allowed for this url.")
+        return HttpResponse(
+            "Error 405 : This method is not allowed for this url.", status=405
+        )
+
+
+@login_required
+def API_products_update_delete_view(request, product):
+    """Get API entry point for product partial update and product delete."""
+    if request.method == "DELETE":
+        breakpoint()
+        return HttpResponse(
+            "Error 405 : This method is not allowed for this url.", status=405
+        )
+    else:
+        return HttpResponse(
+            "Error 405 : This method is not allowed for this url.", status=405
+        )
