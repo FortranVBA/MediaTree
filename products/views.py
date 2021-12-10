@@ -43,7 +43,7 @@ def API_products_create_list_view(request):
         new_product = Product(
             name=body["name"],
             description=body["description"],
-            user=request.user,
+            author_user=request.user,
         )
         new_product.save()
 
@@ -64,10 +64,10 @@ def API_products_create_list_view(request):
 def API_products_update_delete_view(request, product):
     """Get API entry point for product partial update and product delete."""
     if request.method == "DELETE":
-        breakpoint()
-        return HttpResponse(
-            "Error 405 : This method is not allowed for this url.", status=405
-        )
+        product_content = Product.objects.get(pk=product)
+        product_content.delete()
+
+        return HttpResponse("Object deleted.", status=204)
     else:
         return HttpResponse(
             "Error 405 : This method is not allowed for this url.", status=405

@@ -76,10 +76,49 @@ function postUrl(url, function_onload) {
     });
 }
 
-function createProductAPICall(response) {
+// URL deleter function
+function deleteUrl(url, function_onload) {
+
+    const csrftoken = getCookie('csrftoken');
+
+    axios.delete(url, { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
+        function_onload(response);
+    }, function (response) {
+        alert(`Error on API Call: ${response}`);
+    });
+
+}
+
+function productCreationSuccess(response) {
 
     if (response.status == 201) {
         alert("The product has been added to the database.");
+    } else {
+        alert(`Error ${response.status} ${response.statusText} on API Call`);
+    }
+}
+
+function productListingSuccess(response) {
+
+    if (response.status == 200) {
+        let all_products;
+
+        all_products = JSON.parse(response.request.response);
+
+        let table = document.getElementById('table_product');
+        let firstProduct = Object.keys(all_products[0].fields);
+        generateTableHead(table, firstProduct);
+        generateTable(table, all_products);
+
+    } else {
+        alert(`Error ${response.status} ${response.statusText} on API Call`);
+    }
+}
+
+function productDeletionSuccess(response) {
+
+    if (response.status == 204) {
+        alert("The product has been deleted from the database.");
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
@@ -103,30 +142,29 @@ function submit_add_product(event) {
     };
     apiCall = [api, body];
 
-    postUrl(apiCall, createProductAPICall);
+    postUrl(apiCall, productCreationSuccess);
 }
 
-function listProductsAPICall(response) {
+function submit_delete_product(event) {
+    event.preventDefault();
 
-    if (response.status == 200) {
-        let all_products;
+    let body;
+    let apiCall;
+    let productID;
 
-        all_products = JSON.parse(response.request.response);
+    productID = document.getElementById('product_name_selector_delete').value;
 
-        let table = document.getElementById('table_product');
-        let firstProduct = Object.keys(all_products[0].fields);
-        generateTableHead(table, firstProduct);
-        generateTable(table, all_products);
+    apiCall = api + productID;
 
-    } else {
-        alert(`Error ${response.status} ${response.statusText} on API Call`);
-    }
+    deleteUrl(apiCall, productDeletionSuccess);
+
 }
+
 
 function list_products() {
-    getUrl(api, listProductsAPICall);
+    getUrl(api, productListingSuccess);
 }
 
 const api = '/products/';
 
-list_products()
+list_products();
