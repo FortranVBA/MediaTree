@@ -4,8 +4,21 @@
 
 You are logged
 
-<button type="button" id="button_test">Click Me!</button>
+<div class=container_button_add_product>
+    <form id="add_product_form" method="post" onsubmit="submit_add_product(event);">{% csrf_token %}
+        <label>Name: <input type="text" id="product_name_field"></label><br>
+        <label for="product_description_field">Description: </label>
+        <br>
+        <textarea id="product_description_field" name="product_description_field" rows="12" cols="50"></textarea>
+        <button type="button" id="button_add_product">Add Products test</button>
+        <input type="submit" value="Add Products">
+    </form>
+</div>
+<button type="button" id="button_update_product">Update Products</button>
+<button type="button" id="button_delete_product">Delete Products</button>
+<button type="button" id="button_list_product">List Products</button>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 {% load static %}
 <script src="{% static '/js/products.js' %}" type="text/javascript"></script>
 
