@@ -1,215 +1,118 @@
 "use strict";
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-function generateTableHead(table, firstObject) {
-    let thead = table.createTHead();
-    let row = thead.insertRow();
-
-    // Table Id column title
-    let th = document.createElement("th");
-    let text = document.createTextNode("Id");
-    th.appendChild(text);
-    row.appendChild(th);
-
-    // Table fields column titles
-    for (let key of firstObject) {
-        let th = document.createElement("th");
-        let text = document.createTextNode(key);
-        th.appendChild(text);
-        row.appendChild(th);
-    }
-}
-
-function generateTable(table, data) {
-    for (let element of data) {
-        let row = table.insertRow();
-
-        // Fill table Id column
-        let cell = row.insertCell();
-        let text = document.createTextNode(element['pk']);
-        cell.appendChild(text);
-
-        // Fill table fields column
-        for (let key in element['fields']) {
-            let cell = row.insertCell();
-            let text = document.createTextNode(element['fields'][key]);
-            cell.appendChild(text);
-        }
-    }
-}
-
-// URL getter function
-function getUrl(url, function_onload) {
-
-    axios.get(url).then(function (response) {
-        function_onload(response);
-    }, function (response) {
-        alert(`Error on API Call: ${response}`);
-    });
-
-}
-
-// URL poster function
-function postUrl(url, function_onload) {
-
-    const csrftoken = getCookie('csrftoken');
-
-    axios.post(url[0], url[1], { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
-        function_onload(response);
-    }, function (response) {
-        alert(`Error on API Call: ${response}`);
-    });
-}
-
-// URL patcher function
-function patchUrl(url, function_onload) {
-
-    const csrftoken = getCookie('csrftoken');
-
-    axios.patch(url[0], url[1], { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
-        function_onload(response);
-    }, function (response) {
-        alert(`Error on API Call: ${response}`);
-    });
-}
-
-// URL deleter function
-function deleteUrl(url, function_onload) {
-
-    const csrftoken = getCookie('csrftoken');
-
-    axios.delete(url, { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
-        function_onload(response);
-    }, function (response) {
-        alert(`Error on API Call: ${response}`);
-    });
-
-}
-
-function productCreationSuccess(response) {
+function sellCreationSuccess(response) {
 
     if (response.status == 201) {
-        alert("The product has been added to the database.");
+        alert("The sell has been added to the database.");
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
 }
 
-function productUpdateSuccess(response) {
+function sellUpdateSuccess(response) {
 
     if (response.status == 204) {
-        alert("The product has been updated to the database.");
+        alert("The sell has been updated to the database.");
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
 }
 
-function productListingSuccess(response) {
+function sellListingSuccess(response) {
 
     if (response.status == 200) {
-        let all_products;
+        let all_sells;
 
-        all_products = JSON.parse(response.request.response);
+        all_sells = JSON.parse(response.request.response);
 
-        let table = document.getElementById('table_product');
-        let firstProduct = Object.keys(all_products[0].fields);
-        generateTableHead(table, firstProduct);
-        generateTable(table, all_products);
+        let table = document.getElementById('table_sell');
+
+        if (all_sells[0]) {
+            let firstSell = Object.keys(all_sells[0].fields);
+
+            generateTableHead(table, firstSell);
+            generateTable(table, all_sells);
+        }
 
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
 }
 
-function productDeletionSuccess(response) {
+function sellDeletionSuccess(response) {
 
     if (response.status == 204) {
-        alert("The product has been deleted from the database.");
+        alert("The sell has been deleted from the database.");
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
 }
 
-function submit_add_product(event) {
+function submit_add_sell(event) {
 
     event.preventDefault();
 
     let body;
     let apiCall;
-    let productName;
-    let productDescription;
+    let sellProductId;
+    let sellQuantity;
 
-    productName = document.getElementById('product_name_field').value;
-    productDescription = document.getElementById('product_description_field').value;
+    sellProductId = document.getElementById('product_name_add_sell').value;
+    sellQuantity = document.getElementById('sell_quantity_field').value;
 
     body = {
-        name: productName,
-        description: productDescription,
+        product: sellProductId,
+        quantity: sellQuantity,
     };
     apiCall = [api, body];
 
-    postUrl(apiCall, productCreationSuccess);
+    postUrl(apiCall, sellCreationSuccess);
 }
 
-function submit_update_product(event) {
+function submit_update_sell(event) {
 
     event.preventDefault();
 
     let body;
     let apiCall;
-    let productName;
-    let productDescription;
-    let productID;
+    let sellProductId;
+    let sellQuantity;
+    let sellID;
 
-    productName = document.getElementById('product_update_name_field').value;
-    productDescription = document.getElementById('product_update_description_field').value;
-    productID = document.getElementById('product_name_selector_update').value;
+    sellProductId = document.getElementById('product_name_update_sell').value;
+    sellQuantity = document.getElementById('sell_quantity_update_field').value;
+    sellID = document.getElementById('sell_name_selector_update').value;
 
     body = {
-        name: productName,
-        description: productDescription,
+        product: sellProductId,
+        quantity: sellQuantity,
     };
-    apiCall = [(api + productID), body];
+    apiCall = [(api + sellID), body];
 
-    patchUrl(apiCall, productUpdateSuccess);
+    patchUrl(apiCall, sellUpdateSuccess);
 }
 
 
-function submit_delete_product(event) {
+function submit_delete_sell(event) {
     event.preventDefault();
 
     let body;
     let apiCall;
-    let productID;
+    let sellID;
 
-    productID = document.getElementById('product_name_selector_delete').value;
+    sellID = document.getElementById('sell_name_selector_delete').value;
 
-    apiCall = api + productID;
+    apiCall = api + sellID;
 
-    deleteUrl(apiCall, productDeletionSuccess);
+    deleteUrl(apiCall, sellDeletionSuccess);
 
 }
 
 
-function list_products() {
-    getUrl(api, productListingSuccess);
+function list_sells() {
+    getUrl(api, sellListingSuccess);
 }
 
-const api = '/products/';
+const api = '/sells/';
 
-list_products();
+list_sells();
