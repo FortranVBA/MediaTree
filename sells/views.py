@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.core.serializers import serialize
 from django.http import HttpResponse
+from django.db.models import Sum
 from products.models import Product
 from .models import Sell
 import json
@@ -24,7 +25,28 @@ def get_sells_view(request):
 
     products = Product.objects.all()
     sells = Sell.objects.all()
-    context = {"products": products, "sells": sells}
+
+    total_table = []
+    for product in products:
+        total_sells = Sell.objects.filter(product=product).aggregate(Sum("quantity"))[
+            "quantity__sum"
+        ]
+        if not total_sells:
+            total_sells = 0
+        total_table.append(
+            {
+                "id": product.pk,
+                "product": product.name,
+                "quantity": total_sells,
+            }
+        )
+
+    context = {
+        "products": products,
+        "sells": sells,
+        "total_table": total_table,
+    }
+
     return render(request, "sells/sells.html", context)
 
 

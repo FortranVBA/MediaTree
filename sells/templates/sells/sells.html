@@ -55,6 +55,27 @@
 
 <br>
 
+<div class=container_total_sells>
+
+    <table>
+        <tr>
+            <th>Product Id</th>
+            <th>Product name</th>
+            <th>Total quantity sold</th>
+        </tr>
+        {% for row in total_table %}
+        <tr>
+            <td>{{row.id}}</td>
+            <td>{{row.product}}</td>
+            <td>{{row.quantity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+<br>
+
 <div class=container_button_list_sell>
     <button type="button" id="button_list_sell" onClick="window.location.reload();">Update Sells List</button>
 </div>
