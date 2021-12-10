@@ -76,6 +76,18 @@ function postUrl(url, function_onload) {
     });
 }
 
+// URL patcher function
+function patchUrl(url, function_onload) {
+
+    const csrftoken = getCookie('csrftoken');
+
+    axios.patch(url[0], url[1], { headers: { 'X-CSRFToken': csrftoken } }).then(function (response) {
+        function_onload(response);
+    }, function (response) {
+        alert(`Error on API Call: ${response}`);
+    });
+}
+
 // URL deleter function
 function deleteUrl(url, function_onload) {
 
@@ -93,6 +105,15 @@ function productCreationSuccess(response) {
 
     if (response.status == 201) {
         alert("The product has been added to the database.");
+    } else {
+        alert(`Error ${response.status} ${response.statusText} on API Call`);
+    }
+}
+
+function productUpdateSuccess(response) {
+
+    if (response.status == 204) {
+        alert("The product has been updated to the database.");
     } else {
         alert(`Error ${response.status} ${response.statusText} on API Call`);
     }
@@ -144,6 +165,30 @@ function submit_add_product(event) {
 
     postUrl(apiCall, productCreationSuccess);
 }
+
+function submit_update_product(event) {
+
+    event.preventDefault();
+
+    let body;
+    let apiCall;
+    let productName;
+    let productDescription;
+    let productID;
+
+    productName = document.getElementById('product_update_name_field').value;
+    productDescription = document.getElementById('product_update_description_field').value;
+    productID = document.getElementById('product_name_selector_update').value;
+
+    body = {
+        name: productName,
+        description: productDescription,
+    };
+    apiCall = [(api + productID), body];
+
+    patchUrl(apiCall, productUpdateSuccess);
+}
+
 
 function submit_delete_product(event) {
     event.preventDefault();

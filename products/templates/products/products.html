@@ -2,8 +2,6 @@
 
 {% block content %}
 
-You are logged
-
 <div class=container_button_add_product>
     <form id="add_product_form" method="post" onsubmit="submit_add_product(event);">{% csrf_token %}
         <label>Name: <input type="text" id="product_name_field"></label><br>
