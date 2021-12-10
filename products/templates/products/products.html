@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class=container_button_add_product>
-    <form id="add_product_form" method="post" onsubmit="submit_add_product(event);">{% csrf_token %}
+    <form id="add_product_form" onsubmit="submit_add_product(event);">{% csrf_token %}
         <label>Name: <input type="text" id="product_name_field"></label><br>
         <label for="product_description_field">Description: </label>
         <br>
@@ -15,7 +15,7 @@
 <br>
 
 <div class=container_button_update_product>
-    <form id="add_product_form" method="post" onsubmit="submit_update_product(event);">{% csrf_token %}
+    <form id="update_product_form" onsubmit="submit_update_product(event);">{% csrf_token %}
         <label for="product_name_selector_update">Product to update :</label>
         <select name="product_name_selector_update" id="product_name_selector_update">
             {% for product in products %}
@@ -35,7 +35,7 @@
 <br>
 
 <div class=container_button_delete_product>
-    <form id="delete_product_form" method="delete" onsubmit="submit_delete_product(event);">{% csrf_token %}
+    <form id="delete_product_form" onsubmit="submit_delete_product(event);">{% csrf_token %}
         <label for="product_name_selector_delete">Product to delete :</label>
         <select name="product_name_selector_delete" id="product_name_selector_delete">
             {% for product in products %}
