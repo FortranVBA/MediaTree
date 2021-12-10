@@ -50,7 +50,7 @@ def API_products_create_list_view(request):
         data = serialize(
             "json",
             [new_product],
-            fields=("pk", "name", "description", "user", "time_last_updated"),
+            fields=("pk", "name", "description", "author_user", "time_last_updated"),
         )
         return HttpResponse(data, content_type="application/json", status=201)
 
