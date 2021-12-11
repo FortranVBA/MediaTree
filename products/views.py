@@ -41,6 +41,9 @@ def API_products_create_list_view(request):
     elif request.method == "POST":
         body = json.loads(request.body)
 
+        if not body["name"]:
+            return HttpResponse("Product name cannot be empty.", status=400)
+
         new_product = Product(
             name=body["name"],
             description=body["description"],

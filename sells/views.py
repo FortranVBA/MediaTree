@@ -66,6 +66,17 @@ def API_sells_create_list_view(request):
         body = json.loads(request.body)
 
         product_sold = Product.objects.get(pk=body["product"])
+
+        if not product_sold:
+            return HttpResponse("Product sold has not been found.", status=400)
+
+        if not body["quantity"]:
+            return HttpResponse("Quantity cannot be blank.", status=400)
+
+        quantity = int(body["quantity"])
+        if quantity < 0:
+            return HttpResponse("Quantity must be a positive number.", status=400)
+
         new_sell = Sell(
             product=product_sold,
             quantity=body["quantity"],
@@ -99,7 +110,14 @@ def API_sells_update_delete_view(request, sell):
                 product_sold = Product.objects.get(pk=body["product"])
                 sell_content.product = product_sold
             if body["quantity"]:
-                sell_content.quantity = body["quantity"]
+
+                quantity = int(body["quantity"])
+                if quantity < 0:
+                    return HttpResponse(
+                        "Quantity must be a positive number.", status=400
+                    )
+
+                sell_content.quantity = quantity
             sell_content.author_user = request.user
 
             sell_content.save()
