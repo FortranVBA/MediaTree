@@ -1,5 +1,6 @@
 "use strict";
 
+// Send a success message after creation or the error from API
 function productCreationSuccess(response) {
 
     if (response.status == 201) {
@@ -9,6 +10,7 @@ function productCreationSuccess(response) {
     }
 }
 
+// Send a success message after update or the error from API
 function productUpdateSuccess(response) {
 
     if (response.status == 204) {
@@ -18,6 +20,7 @@ function productUpdateSuccess(response) {
     }
 }
 
+// Update the products table after listing or the error from API
 function productListingSuccess(response) {
 
     if (response.status == 200) {
@@ -39,6 +42,7 @@ function productListingSuccess(response) {
     }
 }
 
+// Send a success message after deletion or the error from API
 function productDeletionSuccess(response) {
 
     if (response.status == 204) {
@@ -48,6 +52,7 @@ function productDeletionSuccess(response) {
     }
 }
 
+// Call the API with create request
 function submit_add_product(event) {
 
     event.preventDefault();
@@ -73,6 +78,7 @@ function submit_add_product(event) {
     }
 }
 
+// Call the API with partial update request
 function submit_update_product(event) {
 
     event.preventDefault();
@@ -97,6 +103,7 @@ function submit_update_product(event) {
 }
 
 
+// Call the API with delete request
 function submit_delete_product(event) {
     event.preventDefault();
 
@@ -113,10 +120,13 @@ function submit_delete_product(event) {
 }
 
 
+// Call the API with list request
 function list_products() {
     getUrl(api, productListingSuccess);
 }
 
+// Path of the called product API
 const api = '/products/';
 
+// List call for product table update at page loading
 list_products();

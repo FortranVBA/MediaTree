@@ -1,5 +1,6 @@
 "use strict";
 
+// Send a success message after creation or the error from API
 function sellCreationSuccess(response) {
 
     if (response.status == 201) {
@@ -9,6 +10,8 @@ function sellCreationSuccess(response) {
     }
 }
 
+
+// Send a success message after partial update or the error from API
 function sellUpdateSuccess(response) {
 
     if (response.status == 204) {
@@ -18,6 +21,7 @@ function sellUpdateSuccess(response) {
     }
 }
 
+// Send a success message after listing or the error from API
 function sellListingSuccess(response) {
 
     if (response.status == 200) {
@@ -39,6 +43,7 @@ function sellListingSuccess(response) {
     }
 }
 
+// Send a success message after deletion or the error from API
 function sellDeletionSuccess(response) {
 
     if (response.status == 204) {
@@ -48,6 +53,8 @@ function sellDeletionSuccess(response) {
     }
 }
 
+
+// Call the API with create request
 function submit_add_sell(event) {
 
     event.preventDefault();
@@ -74,6 +81,7 @@ function submit_add_sell(event) {
 
 }
 
+// Call the API with partial update request
 function submit_update_sell(event) {
 
     event.preventDefault();
@@ -98,6 +106,7 @@ function submit_update_sell(event) {
 }
 
 
+// Call the API with delete request
 function submit_delete_sell(event) {
     event.preventDefault();
 
@@ -114,10 +123,13 @@ function submit_delete_sell(event) {
 }
 
 
+// Call the API with list request
 function list_sells() {
     getUrl(api, sellListingSuccess);
 }
 
+// Path of the called sell API
 const api = '/sells/';
 
+// List call for sells table update at page loading
 list_sells();
