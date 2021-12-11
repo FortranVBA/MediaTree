@@ -1,5 +1,6 @@
 "use strict";
 
+// Get cookie from its name (used for the csrf token identification for post/patch/delete requests)
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -16,6 +17,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Generate table header from an object id and fields
 function generateTableHead(table, firstObject) {
     let thead = table.createTHead();
     let row = thead.insertRow();
@@ -35,6 +37,7 @@ function generateTableHead(table, firstObject) {
     }
 }
 
+// Generate table rows from a set of objects
 function generateTable(table, data) {
     for (let element of data) {
         let row = table.insertRow();
