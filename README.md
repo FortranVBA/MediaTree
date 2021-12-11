@@ -43,6 +43,7 @@ Or register a new user to the database, between previous steps 1 and 2, with the
 ## Usage and detailed endpoint documentation
 
 The application includes an API that can be called from the application web interface.
+API use requires login authentication : as there is currently no API entry point for login, API cannot be called outside of the application (each API entry point has nevertheless been tested separately).
 The list of allowed endpoints is the following:
 
 | Description | Method |Endpoint |
