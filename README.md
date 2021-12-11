@@ -11,7 +11,7 @@ The application features are the followings:
 
 ## Warning
 
-This application is intented for local execution and shall not be used as such in production (sensitive variables need to be set as environment variables before production).
+This application is intented for local execution and shall not be used as such in production (for example, sensitive variables need to be set as environment variables before production).
 
 ## Installation and first launch
 
