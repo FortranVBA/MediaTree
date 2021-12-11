@@ -6,7 +6,7 @@ import json
 
 
 # Create your tests here.
-class UsersTests(TestCase):
+class ProductsTests(TestCase):
     """Products application test case."""
 
     fixtures = ["users_data.json", "products_data.json"]
