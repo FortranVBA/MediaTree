@@ -16,6 +16,7 @@ import json
 @login_required
 def get_sells_view(request):
     """Get the sell main view."""
+    # Handle logout action
     if request.method == "GET":
         if "action" in request.GET:
             if request.GET.get("action") == "logout":
@@ -26,6 +27,7 @@ def get_sells_view(request):
     products = Product.objects.all()
     sells = Sell.objects.all()
 
+    # Create the table rows for total sales by product
     total_table = []
     for product in products:
         total_sells = Sell.objects.filter(product=product).aggregate(Sum("quantity"))[
@@ -53,6 +55,7 @@ def get_sells_view(request):
 @login_required
 def API_sells_create_list_view(request):
     """Get API entry point for all sells listing and sell create."""
+    # Entry point for sells list
     if request.method == "GET":
         sells = Sell.objects.all()
         data = serialize(
@@ -62,6 +65,7 @@ def API_sells_create_list_view(request):
         )
         return HttpResponse(data, content_type="application/json", status=200)
 
+    # Entry point for sell create
     elif request.method == "POST":
         body = json.loads(request.body)
 
@@ -100,6 +104,7 @@ def API_sells_create_list_view(request):
 @login_required
 def API_sells_update_delete_view(request, sell):
     """Get API entry point for sell partial update and sell delete."""
+    # Entry point for sell partial update
     if request.method == "PATCH":
         sell_content = Sell.objects.get(pk=sell)
 
@@ -126,6 +131,7 @@ def API_sells_update_delete_view(request, sell):
 
         return HttpResponse("Object not found.", status=404)
 
+    # Entry point for sell delete
     elif request.method == "DELETE":
         sell_content = Sell.objects.get(pk=sell)
 

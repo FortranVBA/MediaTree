@@ -3,26 +3,21 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from .forms import FormLogin
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+
 # Create your views here.
-
-
 def get_login_view(request):
     """Get the user login view."""
     form_login = FormLogin()
 
+    # Handle redirection if user is already authenticated
     if request.method == "GET":
-        if "action" in request.GET:
-            action = request.GET.get("action")
-            if action == "logout":
-                if request.user.is_authenticated:
-                    logout(request)
-
         if request.user.is_authenticated:
             return redirect(reverse_lazy("products"))
 
+    # Handle login submission
     if request.method == "POST":
         form_login = FormLogin(request.POST)
         if form_login.is_valid():
@@ -45,5 +40,5 @@ def get_login_view(request):
 
 
 def get_index(request):
-    """Get the default main view."""
+    """Get the default main view (that redirect to the login view)."""
     return redirect(reverse_lazy("login"))

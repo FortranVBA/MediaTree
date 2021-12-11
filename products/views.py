@@ -14,6 +14,7 @@ import json
 @login_required
 def get_products_view(request):
     """Get the product main view."""
+    # Handle logout action
     if request.method == "GET":
         if "action" in request.GET:
             if request.GET.get("action") == "logout":
@@ -29,6 +30,7 @@ def get_products_view(request):
 @login_required
 def API_products_create_list_view(request):
     """Get API entry point for all products listing and product create."""
+    # Entry point for product list
     if request.method == "GET":
         products = Product.objects.all()
         data = serialize(
@@ -38,6 +40,7 @@ def API_products_create_list_view(request):
         )
         return HttpResponse(data, content_type="application/json", status=200)
 
+    # Entry point for product create
     elif request.method == "POST":
         body = json.loads(request.body)
 
@@ -67,6 +70,7 @@ def API_products_create_list_view(request):
 @login_required
 def API_products_update_delete_view(request, product):
     """Get API entry point for product partial update and product delete."""
+    # Entry point for product partial update
     if request.method == "PATCH":
         product_content = Product.objects.get(pk=product)
 
@@ -84,6 +88,7 @@ def API_products_update_delete_view(request, product):
 
         return HttpResponse("Object not found.", status=404)
 
+    # Entry point for product delete
     elif request.method == "DELETE":
         product_content = Product.objects.get(pk=product)
 
