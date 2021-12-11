@@ -60,13 +60,18 @@ function submit_add_sell(event) {
     sellProductId = document.getElementById('product_name_add_sell').value;
     sellQuantity = document.getElementById('sell_quantity_field').value;
 
-    body = {
-        product: sellProductId,
-        quantity: sellQuantity,
-    };
-    apiCall = [api, body];
+    if (sellQuantity != "") {
+        body = {
+            product: sellProductId,
+            quantity: sellQuantity,
+        };
+        apiCall = [api, body];
 
-    postUrl(apiCall, sellCreationSuccess);
+        postUrl(apiCall, sellCreationSuccess);
+    } else {
+        alert("Error : Quantity cannot be blank.");
+    }
+
 }
 
 function submit_update_sell(event) {

@@ -1,0 +1,22 @@
+[
+    {
+        "model": "products.Product",
+        "pk": 1,
+        "fields": {
+            "name": "product_test_1",
+            "description": "This is the product test description.",
+            "author_user": 1,
+            "time_last_updated": "2020-03-27 10:00:00"
+        }
+    },
+    {
+        "model": "products.Product",
+        "pk": 2,
+        "fields": {
+            "name": "product_test_2",
+            "description": "",
+            "author_user": 2,
+            "time_last_updated": "2020-03-28 10:00:00"
+        }
+    }
+]
